@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pmc-multi-agent"
+version = "0.1.0"
+description = "PM competency certification multi-agent workflow"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+pmc-multi-agent = "pmc_multi_agent.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
