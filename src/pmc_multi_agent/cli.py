@@ -4,6 +4,7 @@ import argparse
 import json
 
 from .execution import ExecutionRunner
+from .ui import serve_dashboard
 from .workflow import default_blueprint
 
 
@@ -19,7 +20,16 @@ def main() -> None:
         action="store_true",
         help="Include stage-by-stage execution information",
     )
+    parser.add_argument(
+        "--dashboard",
+        action="store_true",
+        help="Run local web dashboard at http://127.0.0.1:8000",
+    )
     args = parser.parse_args()
+
+    if args.dashboard:
+        serve_dashboard()
+        return
 
     actual_wrong_rate = json.loads(args.actual)
     runner = ExecutionRunner()

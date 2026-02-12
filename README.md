@@ -48,10 +48,25 @@ PYTHONPATH=src python -m pmc_multi_agent.cli --show-stages
 PYTHONPATH=src python -m pmc_multi_agent.cli --actual '{"PM-001":0.5,"PM-002":0.42,"PM-003":0.61}' --show-stages
 ```
 
+## 실행 화면(웹 대시보드)
+
+터미널이 아니라 브라우저 화면에서 단계 결과를 보고 싶다면:
+
+```bash
+PYTHONPATH=src python -m pmc_multi_agent.cli --dashboard
+```
+
+브라우저에서 `http://127.0.0.1:8000` 접속하면,
+- 오답률 입력
+- 단계별 실행 시간 테이블
+- 원본 JSON
+을 한 화면에서 확인할 수 있습니다.
+
 ## 구조
 
 - `src/pmc_multi_agent/agents.py`: 에이전트 구현
 - `src/pmc_multi_agent/workflow.py`: 오케스트레이션
 - `src/pmc_multi_agent/execution.py`: 실행단(단계별 실행/계측)
+- `src/pmc_multi_agent/ui.py`: 웹 대시보드 서버
 - `src/pmc_multi_agent/models.py`: 데이터 모델
 - `tests/test_workflow.py`: 핵심 동작 테스트
