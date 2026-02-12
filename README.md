@@ -12,27 +12,46 @@ PM 역량인증용 필기 문항을 자동 생성/검수/예측/분석하는 멀
 6. 실제 오답률 대비 편차 계산 (`PostExamAnalyticsAgent`)
 7. 편차 기반 페르소나 가중치 업데이트 (`PersonaUpdaterAgent`)
 
-## 실행
+## 실행단(Execution Layer)
+
+실행단은 `ExecutionRunner`가 담당하며, 각 단계를 순서대로 실행하면서 단계별 메트릭/소요시간을 수집합니다.
+
+- `generate_items`
+- `internal_review`
+- `external_review`
+- `revise_items`
+- `persona_simulation`
+- `predict_wrong_rate`
+- `compare_actuals`
+- `update_personas`
+
+코드 위치:
+- `src/pmc_multi_agent/execution.py`
+
+## 실행 방법
+
+설치 없이 바로 실행:
 
 ```bash
-python -m pmc_multi_agent.cli
+PYTHONPATH=src python -m pmc_multi_agent.cli
 ```
 
-또는 설치 후:
+실행단 로그까지 같이 보기:
 
 ```bash
-pmc-multi-agent
+PYTHONPATH=src python -m pmc_multi_agent.cli --show-stages
 ```
 
 실제 오답률 입력 예시:
 
 ```bash
-python -m pmc_multi_agent.cli --actual '{"PM-001":0.5,"PM-002":0.42,"PM-003":0.61}'
+PYTHONPATH=src python -m pmc_multi_agent.cli --actual '{"PM-001":0.5,"PM-002":0.42,"PM-003":0.61}' --show-stages
 ```
 
 ## 구조
 
 - `src/pmc_multi_agent/agents.py`: 에이전트 구현
 - `src/pmc_multi_agent/workflow.py`: 오케스트레이션
+- `src/pmc_multi_agent/execution.py`: 실행단(단계별 실행/계측)
 - `src/pmc_multi_agent/models.py`: 데이터 모델
 - `tests/test_workflow.py`: 핵심 동작 테스트

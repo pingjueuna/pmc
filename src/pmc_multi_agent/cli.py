@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import asdict
 
-from .workflow import MultiAgentWorkflow, default_blueprint
+from .execution import ExecutionRunner
+from .workflow import default_blueprint
 
 
 def main() -> None:
@@ -14,25 +14,19 @@ def main() -> None:
         default='{"PM-001":0.51,"PM-002":0.44,"PM-003":0.63}',
         help="JSON dictionary of item_id to actual wrong rate",
     )
+    parser.add_argument(
+        "--show-stages",
+        action="store_true",
+        help="Include stage-by-stage execution information",
+    )
     args = parser.parse_args()
 
     actual_wrong_rate = json.loads(args.actual)
-    workflow = MultiAgentWorkflow()
-    result = workflow.run(default_blueprint(), actual_wrong_rate)
+    runner = ExecutionRunner()
+    payload, stages = runner.run_with_stages(default_blueprint(), actual_wrong_rate)
 
-    payload = {
-        "items": [asdict(item) for item in result.items],
-        "issues": [asdict(issue) for issue in result.issues],
-        "error_report": [
-            {
-                **asdict(row),
-                "deviation": round(row.deviation, 3),
-            }
-            for row in result.error_report
-        ],
-        "updated_persona_weights": result.updated_persona_weights,
-        "mean_abs_deviation": round(result.mean_abs_deviation, 3),
-    }
+    if args.show_stages:
+        payload["stages"] = stages
 
     print(json.dumps(payload, ensure_ascii=False, indent=2))
 
