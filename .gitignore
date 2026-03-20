@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.db
+*.sqlite3
+venv/
+.venv/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Data files (대용량/민감 파일)
+backend/app/data/*.xlsx
+backend/app/data/*.xls
+backend/app/data/*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.log
